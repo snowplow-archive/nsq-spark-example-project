@@ -1,0 +1,11 @@
+---
+- name: apply all scripts
+  hosts: all
+
+  roles:
+    - invoke
+    - java8
+    - { role: scala, scala_version: 2.10.6 }
+    - { role: sbt, sbt_version: 0.13.15 }
+    - { role: spark, spark_download_filename: spark-2.2.0-bin-hadoop2.7}
+    - nsq

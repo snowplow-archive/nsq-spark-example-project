@@ -1,0 +1,2 @@
+---
+oracle_java_version: 8  # Default to installing Java 8 unless 6 or 7 is explicitly asked for
