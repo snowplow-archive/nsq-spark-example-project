@@ -1,0 +1,27 @@
+# Name for spark application
+appName: "simple-app"
+
+# the time interval at which streaming data will be divided into batches
+batchDuration: 5
+
+outputFile : "/tmp/spark-output"
+
+// config for nsq
+nsq {
+  # Incoming nsq topic name
+  inTopicName: "nsq-spark-in"
+
+  # Channel name for NSQ source
+  # If more than one application reading from the same NSQ topic at the same time,
+  # all of them must have unique channel name for getting all the data from the same topic
+  channelName = "nsq-spark-channel"
+
+  # Host name for NSQ tools
+  host = "127.0.0.1"
+
+  # HTTP port for nsqlookupd
+  lookupPort = 4161
+
+  # HTTP port for nsqd
+  port = 4150
+}
