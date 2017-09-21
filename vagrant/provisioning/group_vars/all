@@ -1,0 +1,5 @@
+ansible_cache_dir: /var/cache/ansible
+software_install_dir: /usr/local/share
+user_binaries: /usr/local/bin
+staging_dir: /tmp
+main_dir: /home/vagrant/snowplow

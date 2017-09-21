@@ -1,0 +1,13 @@
+---
+# Download Spark tar
+- name: download Spark
+  become: yes
+  get_url: url=http://d3kbcqa49mib13.cloudfront.net/{{ spark_download_filename }}.tgz dest={{ staging_dir }}
+
+- name: Unpack spark
+  become: yes
+  unarchive: src={{ staging_dir }}/{{ spark_download_filename }}.tgz dest={{ main_dir }}/bin copy=no
+
+- name: Rename spark folder
+  become: yes
+  shell: "mv {{ main_dir }}/bin/{{ spark_download_filename }} {{ main_dir }}/bin/spark-master"

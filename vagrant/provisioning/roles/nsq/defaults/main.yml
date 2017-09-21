@@ -1,0 +1,3 @@
+---
+nsq_package: 'nsq-1.0.0-compat.linux-amd64.go1.8'
+nsq_download_location: 'https://s3.amazonaws.com/bitly-downloads/nsq'

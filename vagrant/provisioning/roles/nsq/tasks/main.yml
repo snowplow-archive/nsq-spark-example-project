@@ -1,0 +1,58 @@
+---
+- name: Download NSQ
+  become: yes
+  get_url:
+    url: "{{ nsq_download_location}}/{{ nsq_package }}.tar.gz"
+    dest: "{{ staging_dir }}"
+
+- name: Extract NSQ
+  become: yes
+  unarchive:
+    src: "{{ staging_dir }}/{{ nsq_package }}.tar.gz"
+    dest: "{{ staging_dir }}"
+    copy: "no"
+
+- name: Copy nsq tools to executables_dir
+  become: yes
+  copy:
+    src: "{{ staging_dir }}/{{ nsq_package }}/bin/{{ item }}"
+    dest: "{{ main_dir}}/bin"
+    mode: 0755
+  with_items:
+    - "nsqd"
+    - "nsqlookupd"
+    - "nsq_tail"
+    - "to_nsq"
+
+- name: Copy nsq init scripts to /etc/init.d/
+  become: yes
+  copy:
+    src: "{{ item }}"
+    dest: /etc/init.d
+    mode: 0755
+  with_items:
+    - "nsqd_init"
+    - "nsqlookupd_init"
+
+- name: Configure inits to call them at boot time
+  become: yes
+  shell: "update-rc.d {{item}} defaults"
+  with_items:
+    - "nsqd_init"
+    - "nsqlookupd_init"
+
+- name: Create nsq-data directory
+  become: yes
+  file: path={{ main_dir }}/nsq-data state=directory
+
+- name: Starting nsqd and nsdlookupd
+  become: yes
+  service:
+    name: "{{ item }}"
+    state: started
+  with_items:
+  - "nsqd_init"
+  - "nsqlookupd_init"
+
+- name: Create new topic for RawEvents
+  shell: "curl -X POST http://127.0.0.1:4151/topic/create?topic=nsq-spark-topic"

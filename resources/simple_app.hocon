@@ -1,0 +1,41 @@
+/**
+ * Copyright (c) 2017 Snowplow Analytics Ltd.
+ * All rights reserved.
+ *
+ * This program is licensed to you under the Apache License Version 2.0,
+ * and you may not use this file except in compliance with the Apache
+ * License Version 2.0.
+ * You may obtain a copy of the Apache License Version 2.0 at
+ * http://www.apache.org/licenses/LICENSE-2.0.
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the Apache License Version 2.0 is distributed
+ * on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+ * either express or implied.
+ *
+ * See the Apache License Version 2.0 for the specific language
+ * governing permissions and limitations there under.
+ */
+
+# Name for spark application
+appName: "simple-app"
+
+# the time interval at which streaming data will be divided into batches
+batchDuration: 5
+
+// config for nsq
+nsq {
+  # Incoming nsq topic name
+  inTopicName: "nsq-spark-topic"
+
+  # Channel name for NSQ source
+  # If more than one application reading from the same NSQ topic at the same time,
+  # all of them must have unique channel name for getting all the data from the same topic
+  channelName = "nsq-spark-channel"
+
+  # Host name for NSQ tools
+  host = "127.0.0.1"
+
+  # HTTP port for nsqlookupd
+  lookupPort = 4161
+}
